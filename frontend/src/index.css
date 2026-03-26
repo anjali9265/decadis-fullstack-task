@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+@theme {
+  --color-teal: #319795;
+  --color-teal-hover: #2c7a7b;
+}
+
 /* :root {
   --text: #6b6375;
   --text-h: #08060d;

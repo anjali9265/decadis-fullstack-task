@@ -1,15 +1,9 @@
 import { useState } from "react";
 import { updateUser } from "../../api/users";
-import type { Action, FormActionProps } from "../../types";
+import type { Action, EditUserProps } from "../../types";
 import UserForm from "../../components/UserForm";
 
-interface Props {
-  user: { id: number; firstname: string; lastname: string; email: string; actions: Action[] };
-  onSuccess: () => void;
-  onCancel: () => void;
-}
-
-export default function EditUserForm({ user, onSuccess, onCancel }: Props) {
+export default function EditUserForm({ user, onSuccess, onCancel }: EditUserProps) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 

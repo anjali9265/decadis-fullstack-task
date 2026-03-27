@@ -12,3 +12,18 @@ export interface FormActionProps {
   onSuccess: () => void;
   onCancel: () => void;
 }
+
+export interface EditUserProps {
+  user: { id: number; firstname: string; lastname: string; email: string; actions: Action[] };
+  onSuccess: () => void;
+  onCancel: () => void;
+}
+
+export interface RunActionProps {
+  user: User;
+  onCancel: () => void;
+}
+
+export interface UserDetailsProps {
+  user: User;
+}

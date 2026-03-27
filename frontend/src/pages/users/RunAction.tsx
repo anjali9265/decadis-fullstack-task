@@ -1,15 +1,9 @@
 import { useState } from "react";
 import { runAction } from "../../api/users";
-import type { Action, User } from "../../types";
+import type { Action, RunActionProps } from "../../types";
+import { ALL_ACTIONS } from "../../constants/actions";
 
-const ALL_ACTIONS: Action[] = ["create-item", "delete-item", "view-item", "move-item"];
-
-interface Props {
-  user: User;
-  onCancel: () => void;
-}
-
-export default function RunActionForm({ user, onCancel }: Props) {
+export default function RunActionForm({ user, onCancel }: RunActionProps) {
   const [action, setAction] = useState<Action | "">("");
   const [result, setResult] = useState<{ success: boolean; message: string } | null>(null);
   const [loading, setLoading] = useState(false);
@@ -44,9 +38,9 @@ export default function RunActionForm({ user, onCancel }: Props) {
           }}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          {ALL_ACTIONS.map((action) => (
-            <option key={action} value={action}>
-              {action}
+          {ALL_ACTIONS.map((action: {value:string, label:string}) => (
+            <option key={action.value} value={action.value}>
+              {action.label}
             </option>
           ))}
         </select>

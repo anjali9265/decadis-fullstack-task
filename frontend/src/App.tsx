@@ -1,11 +1,8 @@
-import { useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import UserList from "./pages/users/UserList";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
+import UserList from "./pages/users/UsersList";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <BrowserRouter>
       <Routes>

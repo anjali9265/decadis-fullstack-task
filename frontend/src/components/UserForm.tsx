@@ -1,8 +1,6 @@
 import { useState } from "react";
+import { ALL_ACTIONS } from "../constants/actions";
 import type { Action } from "../types";
-
-// TODO: create global variable for actions label
-const ALL_ACTIONS: Action[] = ["create-item", "delete-item", "view-item", "move-item"];
 
 interface UserFormProps {
   initialValues?: {
@@ -95,14 +93,14 @@ export default function UserForm({
         <label className="block text-sm font-medium text-gray-700 mb-2">Actions</label>
         <div className="space-y-2">
           {ALL_ACTIONS.map((action) => (
-            <label key={action} className="flex items-center gap-3 cursor-pointer">
+            <label key={action.value} className="flex items-center gap-3 cursor-pointer">
               <input
                 type="checkbox"
-                checked={actions.includes(action)}
-                onChange={() => changeAction(action)}
+                checked={actions.includes(action.value)}
+                onChange={() => changeAction(action.value)}
                 className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
               />
-              <span className="text-sm text-gray-700">{action}</span>
+              <span className="text-sm text-gray-700">{action.label}</span>
             </label>
           ))}
         </div>
@@ -120,7 +118,7 @@ export default function UserForm({
           disabled={loading}
           className="px-4 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50"
         >
-          {loading ? "Saving" : 'Submit'}
+          {loading ? "Saving" : "Submit"}
         </button>
       </div>
     </div>

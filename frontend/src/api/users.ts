@@ -1,44 +1,40 @@
+import axios from "axios";
 import type { User, Action } from "../types";
 
 const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
 
 export const getAllUsers = async (): Promise<User[]> => {
-  const res = await fetch(`${BASE_URL}/user`);
-  return res.json();
+  const res = await axios.get(`${BASE_URL}/user`);
+  return res.data;
 };
 
 export const getUser = async (id: number): Promise<User> => {
-  const res = await fetch(`${BASE_URL}/user/${id}`);
-  return res.json();
+  const res = await axios.get(`${BASE_URL}/user/${id}`);
+  return res.data;
 };
 
 export const createUser = async (data: Omit<User, "id">): Promise<User> => {
-  const res = await fetch(`${BASE_URL}/user`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  return res.json();
+  const res = await axios.post(`${BASE_URL}/user`, data);
+  return res.data;
 };
 
 export const updateUser = async (id: number, data: Partial<Omit<User, "id">>): Promise<User> => {
-  const res = await fetch(`${BASE_URL}/user/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  return res.json();
+  const res = await axios.put(`${BASE_URL}/user/${id}`, data);
+  return res.data;
 };
 
 export const deleteUser = async (id: number): Promise<void> => {
-  await fetch(`${BASE_URL}/user/${id}`, { method: "DELETE" });
+  await axios.delete(`${BASE_URL}/user/${id}`);
 };
 
 export const runAction = async (userId: number, action: Action) => {
-  const res = await fetch(`${BASE_URL}/action`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ userId, action }),
-  });
-  return { status: res.status, data: await res.json() };
+  try {
+    const res = await axios.post(`${BASE_URL}/action`, { userId, action });
+    return { status: res.status, data: res.data };
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return { status: error.response.status, data: error.response.data };
+    }
+    throw error;
+  }
 };

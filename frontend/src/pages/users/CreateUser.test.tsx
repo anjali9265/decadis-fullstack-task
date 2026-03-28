@@ -69,7 +69,7 @@ describe("CreateUserForm", () => {
     await userEvent.click(screen.getByRole("button", { name: "Submit" }));
 
     expect(
-      await screen.findByText("USer creation failed")
+      await screen.findByText("User creation failed")
     ).toBeInTheDocument();
   });
 

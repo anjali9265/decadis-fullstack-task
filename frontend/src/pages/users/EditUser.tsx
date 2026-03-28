@@ -16,6 +16,15 @@ export default function EditUserForm({ user, onSuccess, onCancel }: EditUserProp
     setError("");
     setLoading(true);
 
+    if (!data.firstname || !data.lastname || !data.email) {
+      setError("Firstname, lastname and email are required.");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
     try {
       await updateUser(user.id, data);
       onSuccess();

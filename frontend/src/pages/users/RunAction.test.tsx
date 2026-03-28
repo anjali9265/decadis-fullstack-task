@@ -2,8 +2,8 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi } from "vitest";
 import RunActionForm from "./RunAction";
-import { runAction } from "../../api/users";
-import type { RunActionProps } from "../../types";
+import { runAction } from "@/api/users";
+import type { RunActionProps } from "@/types";
 
 vi.mock("../../api/users", () => ({
   runAction: vi.fn(),

@@ -1,4 +1,4 @@
-import type { UserDetailsProps } from "../../types";
+import type { UserDetailsProps } from "@/types";
 
 export default function UserDetails({ user }: UserDetailsProps) {
   return (

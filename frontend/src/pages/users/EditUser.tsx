@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { updateUser } from "../../api/users";
-import type { Action, EditUserProps } from "../../types";
-import UserForm from "../../components/UserForm";
+import { updateUser } from "@/api/users";
+import type { Action, EditUserProps } from "@/types";
+import UserForm from "@/components/UserForm";
 
 export default function EditUserForm({ user, onSuccess, onCancel }: EditUserProps) {
   const [error, setError] = useState("");

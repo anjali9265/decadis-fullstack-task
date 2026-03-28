@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { runAction } from "../../api/users";
-import type { Action, RunActionProps } from "../../types";
-import { ALL_ACTIONS } from "../../constants/actions";
+import { runAction } from "@/api/users";
+import type { Action, RunActionProps } from "@/types";
+import { ALL_ACTIONS } from "@/constants/actions";
 
 export default function RunActionForm({ user, onCancel }: RunActionProps) {
   const [action, setAction] = useState<Action | "">("");
@@ -38,7 +38,7 @@ export default function RunActionForm({ user, onCancel }: RunActionProps) {
           }}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          {ALL_ACTIONS.map((action: {value:string, label:string}) => (
+          {ALL_ACTIONS.map((action: { value: string; label: string }) => (
             <option key={action.value} value={action.value}>
               {action.label}
             </option>

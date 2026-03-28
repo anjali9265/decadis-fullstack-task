@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { createUser } from "../../api/users";
-import type { Action, FormActionProps } from "../../types";
-import UserForm from "../../components/UserForm";
+import { createUser } from "@/api/users";
+import type { Action, FormActionProps } from "@/types";
+import UserForm from "@/components/UserForm";
 
 export default function CreateUserForm({ onSuccess, onCancel }: FormActionProps) {
   const [error, setError] = useState("");

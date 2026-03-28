@@ -1,20 +1,28 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { deleteUser, getAllUsers } from "../../api/users";
-import UserList from "./UsersList";
+import { deleteUser, getAllUsers } from "@/api/users";
+import UsersList from "./UsersList";
 
-vi.mock("../../api/users", () => ({
+vi.mock("@/api/users", () => ({
   getAllUsers: vi.fn(),
   deleteUser: vi.fn(),
 }));
 
-vi.mock("../../components/Modal", () => ({
+vi.mock("@/components/Modal", () => ({
   default: ({ title, children }: any) => (
     <div data-testid="modal">
       <h2>{title}</h2>
       {children}
     </div>
+  ),
+}));
+
+vi.mock("@/components/IconButton", () => ({
+  default: ({ onClick, tooltip, children }: any) => (
+    <button onClick={onClick} title={tooltip}>
+      {children}
+    </button>
   ),
 }));
 
@@ -39,11 +47,11 @@ const mockUsers = [
   },
 ];
 
-describe("UserList", () => {
+describe("UsersList", () => {
   it("should load state initially", () => {
     (getAllUsers as any).mockResolvedValue([]);
 
-    render(<UserList />);
+    render(<UsersList />);
 
     expect(screen.getByText("Loading users...")).toBeInTheDocument();
   });
@@ -51,7 +59,7 @@ describe("UserList", () => {
   it("should render users after fetch", async () => {
     (getAllUsers as any).mockResolvedValue(mockUsers);
 
-    render(<UserList />);
+    render(<UsersList />);
 
     expect(await screen.findByText("John Doe")).toBeInTheDocument();
     expect(screen.getByText("Alice Smith")).toBeInTheDocument();
@@ -60,7 +68,7 @@ describe("UserList", () => {
   it("should show error message when fetch fails", async () => {
     (getAllUsers as any).mockRejectedValue(new Error("fail"));
 
-    render(<UserList />);
+    render(<UsersList />);
 
     expect(await screen.findByText("Failed to load users.")).toBeInTheDocument();
   });
@@ -68,7 +76,7 @@ describe("UserList", () => {
   it("should open Create User modal", async () => {
     (getAllUsers as any).mockResolvedValue([]);
 
-    render(<UserList />);
+    render(<UsersList />);
 
     await userEvent.click(screen.getByRole("button", { name: "Create" }));
 
@@ -79,7 +87,7 @@ describe("UserList", () => {
   it("should open Edit User modal", async () => {
     (getAllUsers as any).mockResolvedValue(mockUsers);
 
-    render(<UserList />);
+    render(<UsersList />);
 
     const editButtons = await screen.findAllByTitle("Edit");
     await userEvent.click(editButtons[0]);
@@ -91,7 +99,7 @@ describe("UserList", () => {
   it("should open View User modal", async () => {
     (getAllUsers as any).mockResolvedValue(mockUsers);
 
-    render(<UserList />);
+    render(<UsersList />);
 
     const viewButtons = await screen.findAllByTitle("View");
     await userEvent.click(viewButtons[1]);
@@ -102,7 +110,7 @@ describe("UserList", () => {
   it("should open Run Action modal", async () => {
     (getAllUsers as any).mockResolvedValue(mockUsers);
 
-    render(<UserList />);
+    render(<UsersList />);
 
     const actionButtons = await screen.findAllByTitle("Run Action");
     await userEvent.click(actionButtons[0]);
@@ -114,9 +122,12 @@ describe("UserList", () => {
     (getAllUsers as any).mockResolvedValue(mockUsers);
     (deleteUser as any).mockResolvedValue({});
 
-    vi.stubGlobal("confirm", vi.fn(() => true));
+    vi.stubGlobal(
+      "confirm",
+      vi.fn(() => true)
+    );
 
-    render(<UserList />);
+    render(<UsersList />);
 
     const deleteButtons = await screen.findAllByTitle("Delete");
     await userEvent.click(deleteButtons[0]);
@@ -127,9 +138,12 @@ describe("UserList", () => {
   it("should not delete user if confirmation is cancelled", async () => {
     (getAllUsers as any).mockResolvedValue(mockUsers);
 
-    vi.stubGlobal("confirm", vi.fn(() => false));
+    vi.stubGlobal(
+      "confirm",
+      vi.fn(() => false)
+    );
 
-    render(<UserList />);
+    render(<UsersList />);
 
     const deleteButtons = await screen.findAllByTitle("Delete");
     await userEvent.click(deleteButtons[0]);

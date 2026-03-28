@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi, type Mock } from "vitest";
 import CreateUserForm from "./CreateUser";
-import { createUser } from "../../api/users";
+import { createUser } from "@/api/users";
 
 vi.mock("../../api/users", () => ({
   createUser: vi.fn(),

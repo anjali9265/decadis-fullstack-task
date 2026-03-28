@@ -2,8 +2,8 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi } from "vitest";
 import EditUserForm from "./EditUser";
-import { updateUser } from "../../api/users";
-import type { EditUserProps } from "../../types";
+import { updateUser } from "@/api/users";
+import type { EditUserProps } from "@/types";
 
 vi.mock("../../api/users", () => ({
   updateUser: vi.fn(),

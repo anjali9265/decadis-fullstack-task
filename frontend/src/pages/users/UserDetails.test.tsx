@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import ViewUser from "./UserDetails";
-import type { UserDetailsProps } from "../../types";
+import type { UserDetailsProps } from "@/types";
 
 const mockUser: UserDetailsProps["user"] = {
   id: 1,

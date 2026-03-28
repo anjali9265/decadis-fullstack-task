@@ -81,7 +81,7 @@ export default function UserList() {
           <h1 className="text-2xl font-bold text-gray-900">Users</h1>
           <button
             onClick={() => openModal("create")}
-            className="px-5 py-2 text-sm text-white bg-brand-teal hover:bg-brand-teal-hover rounded-lg cursor-pointer"
+            className="px-5 py-2 text-sm text-white bg-teal hover:bg-teal-hover rounded-lg cursor-pointer"
           >
             Create
           </button>

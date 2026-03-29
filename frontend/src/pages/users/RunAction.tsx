@@ -4,7 +4,7 @@ import type { Action, RunActionProps } from "@/types";
 import { ALL_ACTIONS } from "@/constants/actions";
 
 export default function RunActionForm({ user, onCancel }: RunActionProps) {
-  const [action, setAction] = useState<Action | "">("");
+  const [action, setAction] = useState<Action>(ALL_ACTIONS[0].value as Action);
   const [result, setResult] = useState<{ success: boolean; message: string } | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -67,7 +67,7 @@ export default function RunActionForm({ user, onCancel }: RunActionProps) {
         </button>
         <button
           onClick={handleRunAction}
-          disabled={!action || loading}
+          disabled={loading}
           className="px-4 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50"
         >
           {loading ? "Running" : "Run"}

@@ -30,11 +30,11 @@ describe("RunActionForm", () => {
     expect(screen.getByRole("option", { name: "Move Item" })).toBeInTheDocument();
   });
 
-  it("should disable Run button when no action is selected", () => {
-    render(<RunActionForm user={mockUser} onCancel={() => {}} />);
+  // it("should disable Run button when no action is selected", () => {
+  //   render(<RunActionForm user={mockUser} onCancel={() => {}} />);
 
-    expect(screen.getByRole("button", { name: "Run" })).toBeDisabled();
-  });
+  //   expect(screen.getByRole("button", { name: "Run" })).toBeDisabled();
+  // });
 
   it("should enable Run button when an action is selected", async () => {
     render(<RunActionForm user={mockUser} onCancel={() => {}} />);

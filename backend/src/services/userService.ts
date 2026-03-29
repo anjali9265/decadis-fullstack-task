@@ -18,7 +18,9 @@ export const UserService = {
   },
 
   async getAllUsers() {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      where: { deletedAt: null },
+    });
     return users.map((user) => ({
       ...user,
       actions: parseActions(user.actions),
@@ -26,13 +28,15 @@ export const UserService = {
   },
 
   async getUserById(id: number) {
-    const user = await prisma.user.findUnique({ where: { id } });
+    const user = await prisma.user.findFirst({
+      where: { id, deletedAt: null },
+    });
     return user ? { ...user, actions: parseActions(user.actions) } : null;
   },
 
   async updateUser(id: number, data: any) {
     const user = await prisma.user.update({
-      where: { id },
+      where: { id, deletedAt: null },
       data: {
         ...data,
         ...(data.actions && { actions: serializeActions(data.actions) }),
@@ -46,6 +50,9 @@ export const UserService = {
   },
 
   async deleteUser(id: number) {
-    return prisma.user.delete({ where: { id } });
+    return prisma.user.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
   },
 };

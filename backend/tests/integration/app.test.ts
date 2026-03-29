@@ -45,7 +45,7 @@ describe("POST /user", () => {
     const res = await request(app).post("/user").send({ firstname: "Max" });
 
     expect(res.status).toBe(400);
-    expect(res.body.error).toBe("firstname, lastname and email are required");
+    expect(res.body.error).toContain("Invalid input");
   });
 
   it("should return 409 if email already exists", async () => {
@@ -117,6 +117,7 @@ describe("PUT /user/:id", () => {
     const res = await request(app).put(`/user/${created.body.id}`).send({ firstname: "" });
 
     expect(res.status).toBe(400);
+    expect(res.body.error).toContain("Too small");
   });
 });
 

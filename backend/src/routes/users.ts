@@ -5,16 +5,16 @@ import {
   getUserById,
   updateUser,
   deleteUser,
-  runAction,
 } from "../controllers/users.js";
+import { validate, validateParams } from "../middleware/validate.js";
+import { createUserSchema, idParamSchema, updateUserSchema } from "../schemas/user.js";
 
 const router = Router();
 
-router.post("/", createUser);
+router.post("/", validate(createUserSchema), createUser);
 router.get("/", getAllUsers);
-router.get("/:id", getUserById);
-router.put("/:id", updateUser);
-router.delete("/:id", deleteUser);
+router.get("/:id", validateParams(idParamSchema), getUserById);
+router.put("/:id", validateParams(idParamSchema), validate(updateUserSchema), updateUser);
+router.delete("/:id", validateParams(idParamSchema), deleteUser);
 
 export default router;
-export { runAction };

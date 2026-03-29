@@ -1,14 +1,20 @@
 import { describe, it, expect, beforeEach, jest } from "@jest/globals";
 import type { User } from "../types/user.js";
+import { Prisma } from "../generated/prisma/client.js";
 
-const mockUser: User = {
+const mockUser = {
   id: 1,
   firstname: "Max",
   lastname: "Mustermann",
   email: "m.mustermann@test.de",
-  actions: ["create-item","view-item"],
+  actions: JSON.stringify(["create-item", "view-item"]),
   createdAt: new Date(),
   updatedAt: new Date(),
+};
+
+const mockUserParsed: User = {
+  ...mockUser,
+  actions: ["create-item", "view-item"], // CONTROLLER OUTPUT SHAPE
 };
 
 const mockFunctions = {
@@ -25,7 +31,6 @@ jest.unstable_mockModule("../lib/prisma.js", () => ({
 
 const { createUser, getAllUsers, getUserById, updateUser, deleteUser, runAction } =
   await import("./users.js");
-
 
 const mockReq = (body = {}, params = {}) => ({ body, params }) as any;
 
@@ -72,7 +77,13 @@ describe("createUser", () => {
   });
 
   it("should return 409 if email already exists", async () => {
-    mockFunctions.create.mockRejectedValue(new Error("Unique constraint"));
+    // mockFunctions.create.mockRejectedValue({ code: "P2002" });
+    mockFunctions.create.mockRejectedValue(
+      new Prisma.PrismaClientKnownRequestError("Unique constraint failed", {
+        code: "P2002",
+        clientVersion: "5.0.0",
+      })
+    );
 
     const req = mockReq({
       firstname: "Max",

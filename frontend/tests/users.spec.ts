@@ -6,6 +6,12 @@ test.describe("Users", () => {
     await expect(page.getByRole("button", { name: "Create" })).toBeVisible();
   });
 
+  test("should generate a sample user", async ({ page }) => {
+    await expect(page.getByText("No users yet")).toBeVisible();
+    await page.getByText("Click here").click();
+    await expect(page.getByText(/Sample/)).toBeVisible();
+  });
+
   test("should open create user modal on clicking Create button", async ({ page }) => {
     await page.getByRole("button", { name: "Create" }).click();
     await expect(page.getByText("Create User")).toBeVisible();

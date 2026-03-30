@@ -19,8 +19,13 @@ export default function RunActionForm({ user, onCancel }: RunActionProps) {
         success: status === 200,
         message: data.message ?? data.error ?? "Unknown response",
       });
-    } catch {
-      setResult({ success: false, message: "Running action failed." });
+    } catch (err: any) {
+      const backendMessage = err?.message || "Running action failed";
+
+      setResult({
+        success: false,
+        message: backendMessage,
+      });
     } finally {
       setLoading(false);
     }

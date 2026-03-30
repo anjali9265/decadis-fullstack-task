@@ -165,3 +165,19 @@ describe("POST /action", () => {
     expect(res.body.error).toBe("User not found");
   });
 });
+
+describe("POST /user/sample", () => {
+  it("should create a sample user", async () => {
+    const res = await request(app).post("/user/sample");
+
+    expect(res.status).toBe(201);
+    expect(res.body.firstname).toBe("Sample");
+    expect(res.body.lastname).toBe("User");
+    expect(res.body.email).toMatch(/sample.*@example\.com/);
+    expect(res.body.actions).toEqual([
+      "create-item",
+      "view-item",
+      "delete-item",
+    ]);
+  });
+});

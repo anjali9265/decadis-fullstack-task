@@ -76,11 +76,11 @@ describe("RunActionForm", () => {
   });
 
   it("should show fallback error message when API throws error", async () => {
-    (runAction as any).mockRejectedValueOnce(new Error("fail"));
+    (runAction as any).mockRejectedValueOnce(new Error("Running action failed."));
 
     render(<RunActionForm user={mockUser} onCancel={() => {}} />);
 
-    await userEvent.selectOptions(screen.getByRole("combobox"), "create-item");
+    await userEvent.selectOptions(screen.getByRole("combobox"), "move-item");
     await userEvent.click(screen.getByRole("button", { name: "Run" }));
 
     expect(await screen.findByText("Running action failed.")).toBeInTheDocument();

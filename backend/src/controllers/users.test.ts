@@ -8,6 +8,7 @@ const mockUser = {
   actions: ["create-item", "view-item"],
   createdAt: new Date(),
   updatedAt: new Date(),
+  deletedAT: null,
 };
 
 const mockUserService = {
@@ -22,8 +23,15 @@ jest.unstable_mockModule("../services/userService.js", () => ({
   UserService: mockUserService,
 }));
 
-const { createUser, getAllUsers, getUserById, updateUser, deleteUser, runAction } =
-  await import("../controllers/users.js");
+const {
+  createUser,
+  getAllUsers,
+  getUserById,
+  updateUser,
+  deleteUser,
+  runAction,
+  createSampleUser,
+} = await import("../controllers/users.js");
 
 const mockReq = (body = {}, params = {}) => ({ body, params }) as any;
 
@@ -223,5 +231,40 @@ describe("runAction", () => {
 
     expect(res.status).toHaveBeenCalledWith(404);
     expect(res.json).toHaveBeenCalledWith({ error: "User not found" });
+  });
+});
+
+describe("createSampleUser ", () => {
+  it("should call UserService.createUser with sample data and return the created user", async () => {
+    const mockSampleUser = {
+      id: 1,
+      firstname: "Sample",
+      lastname: "User",
+      email: `sample${Date.now().toString().slice(-5)}@example.com`,
+      actions: ["create-item", "view-item", "delete-item"],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAT: null,
+    };
+
+    mockUserService.createUser.mockResolvedValue(mockSampleUser);
+
+    const req = mockReq();
+    const res = mockRes();
+    const next = mockNext();
+
+    await createSampleUser(req, res, next);
+
+    expect(mockUserService.createUser).toHaveBeenCalledWith(
+      expect.objectContaining({
+        firstname: "Sample",
+        lastname: "User",
+        email: expect.stringMatching(/^sample\d+@example\.com$/),
+        actions: ["create-item", "view-item", "delete-item"],
+      })
+    );
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith(mockSampleUser);
+    expect(next).not.toHaveBeenCalled();
   });
 });

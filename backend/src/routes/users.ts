@@ -5,11 +5,14 @@ import {
   getUserById,
   updateUser,
   deleteUser,
+  createSampleUser,
 } from "../controllers/users.js";
 import { validate, validateParams } from "../middleware/validate.js";
 import { createUserSchema, idParamSchema, updateUserSchema } from "../schemas/user.js";
 
 const router = Router();
+
+router.post("/sample", createSampleUser);
 
 router.post("/", validate(createUserSchema), createUser);
 router.get("/", getAllUsers);

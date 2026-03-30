@@ -28,6 +28,11 @@ export const deleteUser = async (id: number): Promise<void> => {
 };
 
 export const runAction = async (userId: number, action: Action) => {
-    const res = await api.post(`${BASE_URL}/action`, { userId, action });
-    return { status: res.status, data: res.data };
+  const res = await api.post(`${BASE_URL}/action`, { userId, action });
+  return { status: res.status, data: res.data };
+};
+
+export const generateSampleUser = async (): Promise<User> => {
+  const res = await api.post(`${BASE_URL}/user/sample`);
+  return res.data;
 };

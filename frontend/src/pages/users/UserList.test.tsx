@@ -1,12 +1,13 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { deleteUser, getAllUsers } from "@/api/users";
+import { deleteUser, getAllUsers, generateSampleUser } from "@/api/users";
 import UsersList from "./UsersList";
 
 vi.mock("@/api/users", () => ({
   getAllUsers: vi.fn(),
   deleteUser: vi.fn(),
+  generateSampleUser: vi.fn(),
 }));
 
 vi.mock("@/components/Modal", () => ({
@@ -48,6 +49,23 @@ const mockUsers = [
 ];
 
 describe("UsersList", () => {
+it("should generate a sample user when clicking 'Click here'", async () => {
+  (getAllUsers as any).mockResolvedValue([]);        
+  (generateSampleUser as any).mockResolvedValue({}); 
+  render(<UsersList />);
+
+// Wait for loading to finish
+  await waitFor(() =>
+    expect(screen.queryByText("Loading users...")).not.toBeInTheDocument()
+  );
+  await screen.findByText(/No users yet/i);
+
+  // Click the link
+  await userEvent.click(screen.getByText("Click here"));
+
+  expect(generateSampleUser).toHaveBeenCalled();
+});
+
   it("should load state initially", () => {
     (getAllUsers as any).mockResolvedValue([]);
 

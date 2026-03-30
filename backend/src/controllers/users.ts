@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { Prisma } from "../generated/prisma/client.js";
 import { parseActions, serializeActions } from "../helpers/actions.js";
 import prisma from "../lib/prisma.js";
-import type { CreateUserBody, RunActionBody, UpdateUserBody, User } from "../types/user.js";
+import type { Action, CreateUserBody, RunActionBody, UpdateUserBody, User } from "../types/user.js";
 import { UserService } from "../services/userService.js";
 
 export const createUser = async (
@@ -93,6 +93,27 @@ export const runAction = async (
     }
 
     res.status(200).json({ message: `Action "${action}" executed successfully` });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// sample user
+export const createSampleUser = async (
+  req: Request<{}, {}, RunActionBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const sample = {
+      firstname: "Sample",
+      lastname: "User",
+      email: `sample${Date.now().toString().slice(-5)}@example.com`,
+      actions: ["create-item", "view-item", "delete-item"] as Action[],
+    };
+
+    const user = await UserService.createUser(sample);
+    res.status(201).json(user);
   } catch (error) {
     next(error);
   }

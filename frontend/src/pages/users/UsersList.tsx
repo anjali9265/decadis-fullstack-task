@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllUsers, deleteUser } from "@/api/users";
+import { getAllUsers, deleteUser, generateSampleUser } from "@/api/users";
 import type { User } from "@/types";
 import Modal from "@/components/Modal";
 import CreateUserForm from "./CreateUser";
@@ -54,6 +54,15 @@ export default function UsersList() {
     fetchUsers();
   };
 
+  const createSampleUser = async () => {
+    try {
+      await generateSampleUser();
+      fetchUsers(); // refresh list
+    } catch {
+      setError("Failed to generate sample user.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {modalOpen === "create" && (
@@ -77,7 +86,6 @@ export default function UsersList() {
         </Modal>
       )}
 
- 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
@@ -90,13 +98,20 @@ export default function UsersList() {
           </button>
         </div>
 
-
         {loading && <p className="text-sm text-gray-500">Loading users...</p>}
         {error && <p className="text-sm text-red-500">{error}</p>}
         {!loading && !error && users.length === 0 && (
-          <p className="text-sm text-gray-500">No users yet.</p>
+          <p className="text-sm text-gray-500">
+            No users yet.{" "}
+            <button
+              onClick={createSampleUser}
+              className="text-teal font-medium underline hover:text-teal-hover cursor-pointer"
+            >
+              Click here
+            </button>{" "}
+            to generate a sample user.
+          </p>
         )}
-
 
         {users.length > 0 && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">

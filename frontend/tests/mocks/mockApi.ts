@@ -1,5 +1,5 @@
 import type { Page } from "@playwright/test";
-import type { User } from "../../src/types";
+import type { Action, User } from "../../src/types";
 
 export async function mockApi(page: Page) {
   let users: User[] = [];
@@ -73,6 +73,27 @@ export async function mockApi(page: Page) {
     return route.fulfill({
       status: 200,
       json: { message: `Action "${action}" executed successfully` },
+    });
+  });
+
+  // POST /user/sample
+  await page.route("**/user/sample", async (route) => {
+    const sampleUser = {
+      id: nextId++,
+      firstname: "Sample",
+      lastname: "User",
+      email: `sample${Math.floor(Math.random() * 9999)}@example.com`,
+      actions: ["create-item", "view-item", "delete-item"] as Action[],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      deletedAT: null,
+    };
+
+    users.push(sampleUser);
+
+    return route.fulfill({
+      status: 201,
+      json: sampleUser,
     });
   });
 }

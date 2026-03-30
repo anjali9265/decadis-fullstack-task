@@ -115,64 +115,62 @@ export default function UsersList() {
 
         {users.length > 0 && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-            <div className="overflow-x-auto">
-              <div className="inline-block w-full border border-gray-200 rounded-lg overflow-hidden">
-                <table className="w-full text-sm">
-                  <thead className="bg-gray-50 border-b border-gray-200">
-                    <tr>
-                      <th className="text-left px-4 py-3 font-medium text-gray-600 whitespace-nowrap">
-                        NAME
-                      </th>
-                      <th className="text-left px-4 py-3 font-medium text-gray-600 whitespace-nowrap">
-                        E-MAIL
-                      </th>
-                      <th className="px-4 py-3 whitespace-nowrap" />
+            <div className="overflow-x-auto border border-gray-200 rounded-lg">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th className="text-left px-4 py-3 font-medium text-gray-600 whitespace-nowrap">
+                      NAME
+                    </th>
+                    <th className="text-left px-4 py-3 font-medium text-gray-600 whitespace-nowrap">
+                      E-MAIL
+                    </th>
+                    <th className="px-4 py-3 whitespace-nowrap" />
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {users.map((user) => (
+                    <tr key={user.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                        {user.firstname} {user.lastname}
+                      </td>
+                      <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{user.email}</td>
+                      <td className="px-4 py-3 whitespace-nowrap">
+                        <div className="flex items-center justify-end gap-2">
+                          <IconButton
+                            onClick={() => openModal("edit", user)}
+                            tooltip="Edit"
+                            className="text-gray-600 border-gray-200 hover:bg-gray-50"
+                          >
+                            <Pencil size={14} />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => handleDelete(user)}
+                            tooltip="Delete"
+                            className="text-red-600 border-red-200 hover:bg-red-50"
+                          >
+                            <Trash2 size={14} />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => openModal("action", user)}
+                            tooltip="Run Action"
+                            className="text-blue-600 border-blue-200 hover:bg-blue-50"
+                          >
+                            <Play size={14} />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => openModal("view", user)}
+                            tooltip="View"
+                            className="text-gray-600 border-gray-200 hover:bg-gray-50"
+                          >
+                            <Eye size={14} />
+                          </IconButton>
+                        </div>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {users.map((user) => (
-                      <tr key={user.id} className="hover:bg-gray-50">
-                        <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
-                          {user.firstname} {user.lastname}
-                        </td>
-                        <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{user.email}</td>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <div className="flex items-center justify-end gap-2">
-                            <IconButton
-                              onClick={() => openModal("edit", user)}
-                              tooltip="Edit"
-                              className="text-gray-600 border-gray-200 hover:bg-gray-50"
-                            >
-                              <Pencil size={14} />
-                            </IconButton>
-                            <IconButton
-                              onClick={() => handleDelete(user)}
-                              tooltip="Delete"
-                              className="text-red-600 border-red-200 hover:bg-red-50"
-                            >
-                              <Trash2 size={14} />
-                            </IconButton>
-                            <IconButton
-                              onClick={() => openModal("action", user)}
-                              tooltip="Run Action"
-                              className="text-blue-600 border-blue-200 hover:bg-blue-50"
-                            >
-                              <Play size={14} />
-                            </IconButton>
-                            <IconButton
-                              onClick={() => openModal("view", user)}
-                              tooltip="View"
-                              className="text-gray-600 border-gray-200 hover:bg-gray-50"
-                            >
-                              <Eye size={14} />
-                            </IconButton>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         )}

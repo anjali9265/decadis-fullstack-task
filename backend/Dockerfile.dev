@@ -1,0 +1,17 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+# Copy the rest of the backend
+COPY . .
+
+# Generate Prisma client
+# RUN npx prisma generate
+
+EXPOSE 3001
+
+# Run migrations + start dev server (nodemon + tsx)
+CMD ["sh", "-c", "npx prisma generate && npx prisma migrate deploy && npm run dev"]

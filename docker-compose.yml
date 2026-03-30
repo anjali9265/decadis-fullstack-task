@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/prisma:/app/prisma
+      - sqlite_data:/app/prisma
+    environment:
+      DATABASE_URL: file:/app/prisma/dev.db
+      PORT: 3001
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/src:/app/src
+    environment:
+      VITE_API_URL: http://localhost:3001
+    depends_on:
+      - backend
+
+volumes:
+  sqlite_data:

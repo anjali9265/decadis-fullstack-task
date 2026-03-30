@@ -27,6 +27,6 @@ export const validateParams =
       });
     }
 
-    req.params = result.data as unknown as Record<string, string>; // validated + sanitized
+    req.params = result.data as unknown as Record<string, string>; 
     next();
   };

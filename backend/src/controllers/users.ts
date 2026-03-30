@@ -1,9 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
-import { Prisma } from "../generated/prisma/client.js";
-import { parseActions, serializeActions } from "../helpers/actions.js";
-import prisma from "../lib/prisma.js";
-import type { Action, CreateUserBody, RunActionBody, UpdateUserBody, User } from "../types/user.js";
 import { UserService } from "../services/userService.js";
+import type { Action, CreateUserBody, RunActionBody, UpdateUserBody } from "../types/user.js";
 
 export const createUser = async (
   req: Request<{}, {}, CreateUserBody>,
@@ -79,7 +76,6 @@ export const runAction = async (
 ) => {
   try {
     const { userId, action } = req.body;
-    // const user = await UserService.getUserById(userId);
     const user = await UserService.getUserById(Number(userId));
 
     if (!user) {
@@ -98,7 +94,6 @@ export const runAction = async (
   }
 };
 
-// sample user
 export const createSampleUser = async (
   req: Request<{}, {}, RunActionBody>,
   res: Response,

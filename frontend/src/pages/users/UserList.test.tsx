@@ -49,22 +49,18 @@ const mockUsers = [
 ];
 
 describe("UsersList", () => {
-it("should generate a sample user when clicking 'Click here'", async () => {
-  (getAllUsers as any).mockResolvedValue([]);        
-  (generateSampleUser as any).mockResolvedValue({}); 
-  render(<UsersList />);
+  it("should generate a sample user when clicking 'Click here'", async () => {
+    (getAllUsers as any).mockResolvedValue([]);
+    (generateSampleUser as any).mockResolvedValue({});
+    render(<UsersList />);
 
-// Wait for loading to finish
-  await waitFor(() =>
-    expect(screen.queryByText("Loading users...")).not.toBeInTheDocument()
-  );
-  await screen.findByText(/No users yet/i);
+    // Wait for loading to finish
+    await waitFor(() => expect(screen.queryByText("Loading users...")).not.toBeInTheDocument());
+    await screen.findByText(/No users yet/i);
+    await userEvent.click(screen.getByText("Click here"));
 
-  // Click the link
-  await userEvent.click(screen.getByText("Click here"));
-
-  expect(generateSampleUser).toHaveBeenCalled();
-});
+    expect(generateSampleUser).toHaveBeenCalled();
+  });
 
   it("should load state initially", () => {
     (getAllUsers as any).mockResolvedValue([]);

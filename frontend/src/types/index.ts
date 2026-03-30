@@ -27,3 +27,38 @@ export interface RunActionProps {
 export interface UserDetailsProps {
   user: User;
 }
+
+export interface ModalProps {
+  title: string;
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
+export interface UserFormProps {
+  initialValues?: {
+    firstname: string;
+    lastname: string;
+    email: string;
+    actions: Action[];
+  };
+  onSubmit: (data: {
+    firstname: string;
+    lastname: string;
+    email: string;
+    actions: Action[];
+  }) => void;
+  onCancel: () => void;
+  loading: boolean;
+  error: string;
+}
+
+export type ValidationResult = {
+  valid: boolean;
+  error: string;
+};
+
+export type UserInput = {
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+};

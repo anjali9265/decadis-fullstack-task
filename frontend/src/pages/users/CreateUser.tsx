@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createUser } from "@/api/users";
 import type { Action, FormActionProps } from "@/types";
 import UserForm from "@/components/UserForm";
+import { validateUserInput } from "@/helpers/validation";
 
 export default function CreateUserForm({ onSuccess, onCancel }: FormActionProps) {
   const [error, setError] = useState("");
@@ -13,13 +14,9 @@ export default function CreateUserForm({ onSuccess, onCancel }: FormActionProps)
     email: string;
     actions: Action[];
   }) => {
-    if (!data.firstname || !data.lastname || !data.email) {
-      setError("Firstname, lastname and email are required.");
-      return;
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-      setError("Please enter a valid email address.");
+    const { valid, error } = validateUserInput(data);
+    if (!valid) {
+      setError(error);
       return;
     }
 

@@ -84,7 +84,6 @@ test.describe("Users", () => {
     const row = page.getByRole("row", { name: "Action User" });
     await row.getByTitle("Run Action").click();
 
-    // await expect(page.getByText("Run Action")).toBeVisible();
     await expect(page.getByRole("heading", { name: "Run Action" })).toBeVisible();
     await page.getByRole("combobox").selectOption("create-item");
     const modal = page.locator(".fixed.inset-0");
@@ -106,7 +105,6 @@ test.describe("Users", () => {
     const row = page.getByRole("row", { name: "No Action" });
     await row.getByTitle("Run Action").click();
 
-    // await expect(page.getByText("Run Action")).toBeVisible();
     await expect(page.getByRole("heading", { name: "Run Action" })).toBeVisible();
 
     await page.getByRole("combobox").selectOption("create-item");

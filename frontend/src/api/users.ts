@@ -1,7 +1,8 @@
 import api from "./axios";
 import type { User, Action } from "../types";
 
-const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
+const BASE_URL = (import.meta.env.VITE_API_URL ?? "http://localhost:3001").replace(/\/$/, "");
+
 
 export const getAllUsers = async (): Promise<User[]> => {
   const res = await api.get(`${BASE_URL}/user`);

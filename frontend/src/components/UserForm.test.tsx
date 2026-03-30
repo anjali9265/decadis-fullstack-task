@@ -83,7 +83,7 @@ describe("UserForm", () => {
     await userEvent.click(deleteItem);
     expect(deleteItem).toBeChecked();
 
-    // toggle off
+    // toggle off the checkbox
     await userEvent.click(create);
     expect(create).not.toBeChecked();
   });

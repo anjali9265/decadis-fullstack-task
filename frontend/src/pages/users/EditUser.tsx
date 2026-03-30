@@ -2,6 +2,7 @@ import { useState } from "react";
 import { updateUser } from "@/api/users";
 import type { Action, EditUserProps } from "@/types";
 import UserForm from "@/components/UserForm";
+import { validateUserInput } from "@/helpers/validation";
 
 export default function EditUserForm({ user, onSuccess, onCancel }: EditUserProps) {
   const [error, setError] = useState("");
@@ -13,18 +14,15 @@ export default function EditUserForm({ user, onSuccess, onCancel }: EditUserProp
     email: string;
     actions: Action[];
   }) => {
+    const { valid, error } = validateUserInput(data);
+    if (!valid) {
+      setError(error);
+      return;
+    }
+
     setError("");
     setLoading(true);
 
-    if (!data.firstname || !data.lastname || !data.email) {
-      setError("Firstname, lastname and email are required.");
-      return;
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
     try {
       await updateUser(user.id, data);
       onSuccess();

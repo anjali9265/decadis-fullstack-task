@@ -5,7 +5,7 @@ import EditUserForm from "./EditUser";
 import { updateUser } from "@/api/users";
 import type { EditUserProps } from "@/types";
 
-vi.mock("../../api/users", () => ({
+vi.mock("@/api/users", () => ({
   updateUser: vi.fn(),
 }));
 

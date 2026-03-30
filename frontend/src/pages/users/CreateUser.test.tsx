@@ -1,39 +1,27 @@
+import { createUser } from "@/api/users";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, it, expect, vi, type Mock } from "vitest";
+import { describe, expect, it, vi, type Mock } from "vitest";
 import CreateUserForm from "./CreateUser";
-import { createUser } from "@/api/users";
 
-vi.mock("../../api/users", () => ({
+vi.mock("@/api/users", () => ({
   createUser: vi.fn(),
 }));
 
 describe("CreateUserForm", () => {
   it("should show an error when required fields are missing", async () => {
-    render(
-      <CreateUserForm
-        onSuccess={() => {}}
-        onCancel={() => {}}
-      />
-    );
+    render(<CreateUserForm onSuccess={() => {}} onCancel={() => {}} />);
 
     await userEvent.click(screen.getByRole("button", { name: "Submit" }));
 
-    expect(
-      screen.getByText("Firstname, lastname and email are required.")
-    ).toBeInTheDocument();
+    expect(screen.getByText("Firstname, lastname and email are required.")).toBeInTheDocument();
   });
 
   it("should call createUser with correct data and triggers onSuccess", async () => {
     const onSuccess = vi.fn();
     (createUser as Mock).mockResolvedValueOnce({});
 
-    render(
-      <CreateUserForm
-        onSuccess={onSuccess}
-        onCancel={() => {}}
-      />
-    );
+    render(<CreateUserForm onSuccess={onSuccess} onCancel={() => {}} />);
 
     await userEvent.type(screen.getByPlaceholderText("Max"), "Alice");
     await userEvent.type(screen.getByPlaceholderText("Mustermann"), "Smith");
@@ -55,12 +43,7 @@ describe("CreateUserForm", () => {
   it("should show an error when API call fails", async () => {
     (createUser as Mock).mockRejectedValueOnce(new Error("fail"));
 
-    render(
-      <CreateUserForm
-        onSuccess={() => {}}
-        onCancel={() => {}}
-      />
-    );
+    render(<CreateUserForm onSuccess={() => {}} onCancel={() => {}} />);
 
     await userEvent.type(screen.getByPlaceholderText("Max"), "Alice");
     await userEvent.type(screen.getByPlaceholderText("Mustermann"), "Smith");
@@ -68,15 +51,13 @@ describe("CreateUserForm", () => {
 
     await userEvent.click(screen.getByRole("button", { name: "Submit" }));
 
-    expect(
-      await screen.findByText("User creation failed")
-    ).toBeInTheDocument();
+    expect(await screen.findByText("User creation failed")).toBeInTheDocument();
   });
 
   it("should disable submit button while loading", async () => {
     const onSuccess = vi.fn();
 
-    let resolvePromise:  (value?: unknown) => void;
+    let resolvePromise: (value?: unknown) => void;
     (createUser as Mock).mockImplementation(
       () =>
         new Promise((resolve) => {
@@ -84,12 +65,7 @@ describe("CreateUserForm", () => {
         })
     );
 
-    render(
-      <CreateUserForm
-        onSuccess={onSuccess}
-        onCancel={() => {}}
-      />
-    );
+    render(<CreateUserForm onSuccess={onSuccess} onCancel={() => {}} />);
 
     await userEvent.type(screen.getByPlaceholderText("Max"), "Alice");
     await userEvent.type(screen.getByPlaceholderText("Mustermann"), "Smith");

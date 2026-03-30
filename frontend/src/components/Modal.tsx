@@ -1,13 +1,8 @@
-  import { useEffect } from "react";
-
-interface ModalProps {
-  title: string;
-  onClose: () => void;
-  children: React.ReactNode;
-}
+import type { ModalProps } from "@/types";
+import { useEffect } from "react";
+import { X } from "lucide-react";
 
 export default function Modal({ title, onClose, children }: ModalProps) {
-
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -25,14 +20,15 @@ export default function Modal({ title, onClose, children }: ModalProps) {
         className="bg-white rounded-xl shadow-xl w-full max-w-md mx-4 p-6"
         onClick={(e) => e.stopPropagation()}
       >
-
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-xl leading-none"
+            aria-label="Close modal"
+            title="Close"
+            className="text-gray-400 hover:text-gray-600 text-xl leading-none cursor-pointer"
           >
-            ✕
+            <X size={18} />
           </button>
         </div>
 

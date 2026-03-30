@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import { getAllUsers, deleteUser, generateSampleUser } from "@/api/users";
-import type { User } from "@/types";
+import { deleteUser, generateSampleUser, getAllUsers } from "@/api/users";
+import IconButton from "@/components/IconButton";
 import Modal from "@/components/Modal";
+import type { User } from "@/types";
+import { Eye, Pencil, Play, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import CreateUserForm from "./CreateUser";
 import EditUserForm from "./EditUser";
 import RunActionForm from "./RunAction";
 import UserDetails from "./UserDetails";
-import { Pencil, Trash2, Play, Eye } from "lucide-react";
-import IconButton from "@/components/IconButton";
 
 type ModalType = "create" | "edit" | "action" | "view" | null;
 
@@ -87,7 +87,6 @@ export default function UsersList() {
       )}
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Users</h1>
           <button
@@ -98,6 +97,7 @@ export default function UsersList() {
           </button>
         </div>
 
+        {/* Sample users */}
         {loading && <p className="text-sm text-gray-500">Loading users...</p>}
         {error && <p className="text-sm text-red-500">{error}</p>}
         {!loading && !error && users.length === 0 && (

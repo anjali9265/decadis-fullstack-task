@@ -5,7 +5,7 @@ import RunActionForm from "./RunAction";
 import { runAction } from "@/api/users";
 import type { RunActionProps } from "@/types";
 
-vi.mock("../../api/users", () => ({
+vi.mock("@/api/users", () => ({
   runAction: vi.fn(),
 }));
 
@@ -29,12 +29,6 @@ describe("RunActionForm", () => {
     expect(screen.getByRole("option", { name: "View Item" })).toBeInTheDocument();
     expect(screen.getByRole("option", { name: "Move Item" })).toBeInTheDocument();
   });
-
-  // it("should disable Run button when no action is selected", () => {
-  //   render(<RunActionForm user={mockUser} onCancel={() => {}} />);
-
-  //   expect(screen.getByRole("button", { name: "Run" })).toBeDisabled();
-  // });
 
   it("should enable Run button when an action is selected", async () => {
     render(<RunActionForm user={mockUser} onCancel={() => {}} />);

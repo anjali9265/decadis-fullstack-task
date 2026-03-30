@@ -23,7 +23,8 @@ describe("Modal", () => {
       </Modal>
     );
 
-    await userEvent.click(screen.getByRole("button", { name: "✕" }));
+    // await userEvent.click(screen.getByRole("button", { name: "✕" }));
+    await userEvent.click(screen.getByRole("button", { name: /close modal/i }));
     expect(onClose).toHaveBeenCalled();
   });
 });

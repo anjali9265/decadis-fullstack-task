@@ -8,7 +8,7 @@ export async function mockApi(page: Page) {
   users = [];
   nextId = 1;
 
-  // GET and POST
+  // GET and POST user
   await page.route("**/user", async (route) => {
     const req = route.request();
 
@@ -26,7 +26,7 @@ export async function mockApi(page: Page) {
     route.continue();
   });
 
-  // GET single user, PUT and DELETE
+  // GET single user, PUT and DELETE user
   await page.route("**/user/*", async (route) => {
     const req = route.request();
     const id = Number(req.url().split("/").pop());
@@ -54,7 +54,7 @@ export async function mockApi(page: Page) {
     route.continue();
   });
 
-  // POST
+  // POST action
   await page.route("**/action", async (route) => {
     const { userId, action } = route.request().postDataJSON();
     const user = users.find((u) => u.id === userId);
